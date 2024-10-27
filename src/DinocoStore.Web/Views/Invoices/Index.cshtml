@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Invoice list";
+    ViewData["ActiveLink"] = "invoices-link";
+}
+
+<div style="max-width: 960px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-between">
+        <h5 class="fw-semibold">@ViewData["Title"]</h5>
+        <a asp-controller="Invoices" asp-action="Add" class="btn btn-primary fw-semibold">New invoice</a>
+    </div>
+
+    <br>
+
+    <div class="table-responsive">
+        <table class="table table-borderless table-hover" id="dt">
+            <thead class="border-bottom">
+                <tr>
+                    <th class="fw-semibold">#</th>
+                    <th class="fw-semibold">Customer</th>
+                    <th class="fw-semibold">State</th>
+                    <th class="fw-semibold">Date</th>
+                    <th class="fw-semibold">Total</th>
+                    <th class="fw-semibold text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Invoices)
+                {
+                    <tr class="align-middle">
+                        <td>@item.Id</td>
+                        <td>@item.Customer</td>
+                        <td>
+                            <span class="badge bg-@(item.State != InvoiceState.Annulled ? "success" : "danger")-subtle text-dark px-3 py-1 rounded-pill">@item.State</span>
+                        </td>
+                        <td>@item.DateTime</td>
+                        <td>$@item.Total</td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Invoices" asp-action="Details" asp-route-id="@item.Id" class="btn btn-light btn-sm">
+                                    <i data-feather="eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+}
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script src="~/js/dt.js"></script>
+}

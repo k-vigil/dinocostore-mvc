@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Invoice details";
+    ViewData["ActiveLink"] = "invoices-link";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Invoices" asp-action="Index" class="text-decoration-none">Invoice list</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<div style="max-width: 960px;">
+    <div class="d-flex justify-content-between">
+        <h5 class="fw-semibold">@ViewData["Title"]</h5>
+        @if (Model.Invoice?.State != InvoiceState.Annulled)
+        {
+            <a asp-controller="Invoices" asp-action="Anulate" asp-route-id="@Model.Invoice?.Id"
+                class="btn btn-light border fw-semibold" onclick="return confirm('Are you sure?')">Anulate</a>
+        }
+    </div>
+</div>
+
+<br>
+
+<div style="max-width: 500px;">
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">#</p>
+        <p class="mb-0 col-7">@Model.Invoice?.Id</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Customer</p>
+        <p class="mb-0 col-7">@Model.Invoice?.Customer</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Date</p>
+        <p class="mb-0 col-7">@Model.Invoice?.DateTime</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Total</p>
+        <p class="mb-0 col-7">$@Model.Invoice?.Total</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">State</p>
+        <p class="mb-0 col-7">
+            <span class="badge bg-@(Model.Invoice.State != InvoiceState.Annulled ? "success" : "danger")-subtle text-dark px-3 py-1 rounded-pill">@Model.Invoice?.State</span>
+        </p>
+    </div>
+</div>
+
+<div style="max-width: 960px;">
+    <div class="table-responsive">
+        <table class="table table-borderless">
+            <thead class="border-bottom">
+                <tr>
+                    <th class="fw-semibold">#</th>
+                    <th class="fw-semibold">Description</th>
+                    <th class="fw-semibold">Price</th>
+                    <th class="fw-semibold">Quantity</th>
+                    <th class="fw-semibold text-end">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model.Invoice?.InvoiceItems!)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Product.Description</td>
+                        <td>$@item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td class="text-end">$@(item.Price * item.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="bg-transparent fw-semibold text-end" colspan="4">Total:</th>
+                    <th class="bg-transparent fw-semibold text-end">$@Model.Invoice?.Total</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

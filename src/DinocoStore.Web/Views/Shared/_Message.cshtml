@@ -1,0 +1,7 @@
+@if (TempData["MessageType"] is not null && TempData["MessageText"] is not null)
+{
+    <div class="alert alert-@(TempData["MessageType"]) alert-dismissible fade show rounded-0 border-0" role="alert">
+        @TempData["MessageText"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

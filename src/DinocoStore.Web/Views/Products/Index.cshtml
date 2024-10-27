@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Product list";
+    ViewData["ActiveLink"] = "products-link";
+}
+
+<div style="max-width: 960px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-between">
+        <h5 class="fw-semibold">@ViewData["Title"]</h5>
+        <a asp-controller="Products" asp-action="Add" class="btn btn-primary fw-semibold">New product</a>
+    </div>
+
+    <br>
+
+    <div class="table-responsive">
+        <table class="table table-borderless table-hover" id="dt">
+            <thead class="border-bottom">
+                <tr>
+                    <th class="fw-semibold">#</th>
+                    <th class="fw-semibold">Description</th>
+                    <th class="fw-semibold">Stock</th>
+                    <th class="fw-semibold">Price</th>
+                    <th class="fw-semibold">Active</th>
+                    <th class="fw-semibold text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr class="align-middle">
+                        <td>@item.Id</td>
+                        <td>@item.Description</td>
+                        <td>@item.Stock</td>
+                        <td>$@item.Price</td>
+                        <td>
+                            <span class="badge bg-@(item.Active ? "success" : "danger")-subtle text-dark px-3 py-1 rounded-pill">
+                                @(item.Active ? "Yes" : "No")
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id"
+                                    class="btn btn-light btn-sm">
+                                    <i data-feather="eye"></i>
+                                </a>
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id"
+                                    class="btn btn-light btn-sm">
+                                    <i data-feather="edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+}
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script src="~/js/dt.js"></script>
+}

@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "New product";
+    ViewData["ActiveLink"] = "products-link";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Products" asp-action="Index" class="text-decoration-none">Product list</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+<h5 class="fw-semibold">@ViewData["Title"]</h5>
+
+<br>
+
+<form asp-controller="Products" asp-action="Add" method="post" id="form" novalidate>
+    @Html.AntiForgeryToken()
+    <div class="mb-3" style="max-width: 500px;">
+        <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="Description" required>
+        <span class="invalid-feedback">This is required</span>
+    </div>
+    <div class="mb-3" style="max-width: 320px;">
+        <label class="form-label fw-semibold">Stock</label>
+        <input type="number" class="form-control" min="0" name="Stock">
+    </div>
+    <div class="mb-3" style="max-width: 320px;">
+        <label class="form-label fw-semibold">Price <span class="text-danger">*</span></label>
+        <input type="number" class="form-control" step="any" min="0" name="Price" required>
+        <span class="invalid-feedback">This is required</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary fw-semibold">Save</button>
+    <a asp-controller="Products" asp-action="Index" class="btn btn-link text-muted text-decoration-none">Cancel</a>
+</form>
+
+@section scripts {
+    <script src="~/js/form-validate.js"></script>
+}

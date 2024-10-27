@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Product details";
+    ViewData["ActiveLink"] = "products-link";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Products" asp-action="Index" class="text-decoration-none">Product list</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+<h5 class="fw-semibold">@ViewData["Title"]</h5>
+
+<br>
+
+<div style="max-width: 500px;">
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">#</p>
+        <p class="mb-0 col-7">@Model.Product?.Id</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Description</p>
+        <p class="mb-0 col-7">@Model.Product?.Description</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Stock</p>
+        <p class="mb-0 col-7">@Model.Product?.Stock</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Price</p>
+        <p class="mb-0 col-7">$@Model.Product?.Price</p>
+    </div>
+    <div class="mb-3 row">
+        <p class="mb-0 col-5">Active</p>
+        <p class="mb-0 col-7">
+            <span class="badge bg-@(Model.Product?.Active ? "success" : "danger")-subtle text-dark px-3 py-1 rounded-pill">
+                @(Model.Product?.Active ? "Yes" : "No")
+            </span>
+        </p>
+    </div>
+</div>
